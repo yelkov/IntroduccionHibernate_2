@@ -27,6 +27,9 @@ public class Card {
         BAC
     }
 
+    @OneToOne(mappedBy = "card")
+    private Student student;
+
     public Card() {
     }
 
@@ -61,6 +64,14 @@ public class Card {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     @Override

@@ -5,7 +5,9 @@ import com.sun.istack.Nullable;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -28,6 +30,10 @@ public class Course {
     @Nullable
     @Column(name="enddate")
     private LocalDate endDate;
+
+    @ManyToMany(mappedBy = "courses")
+    private List<Student> students = new ArrayList<>();
+
 
     public Course() {
         this.beginDate = LocalDate.now();
@@ -74,6 +80,14 @@ public class Course {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
     @Override

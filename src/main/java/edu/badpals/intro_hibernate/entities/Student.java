@@ -3,6 +3,8 @@ package edu.badpals.intro_hibernate.entities;
 import com.sun.istack.NotNull;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -27,6 +29,16 @@ public class Student {
     @Column(name="phone",nullable = false)
     @NotNull
     private String phone;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinTable(name="students_courses",
+                joinColumns = @JoinColumn(name="idstudent"),
+                inverseJoinColumns = @JoinColumn(name="idcourse"))
+    private List<Course> courses = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="idcard")
+    private Card card;
 
     public Student() {
     }
@@ -67,6 +79,29 @@ public class Student {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    public void addCourse(Course course) {
+        if(!courses.contains(course)){
+            courses.add(course);
+            course.getStudents().add(this);
+        }
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
     }
 
     @Override
