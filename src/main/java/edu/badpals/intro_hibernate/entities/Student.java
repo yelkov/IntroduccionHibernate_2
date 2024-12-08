@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name="students",schema = "school")
 public class Student {
 

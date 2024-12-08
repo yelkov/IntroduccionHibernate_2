@@ -1,12 +1,11 @@
 package edu.badpals.intro_hibernate;
 
-import edu.badpals.intro_hibernate.entities.Card;
-import edu.badpals.intro_hibernate.entities.Course;
-import edu.badpals.intro_hibernate.entities.Student;
+import edu.badpals.intro_hibernate.entities.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
@@ -83,6 +82,24 @@ public class Main {
         em.getTransaction().begin();
         em.remove(foundAlice);
         em.getTransaction().commit();
+
+        try {
+            em.getTransaction().begin();
+
+            DevOps chuck = new DevOps("Chuck", "00000000F", "619999999");
+            chuck.setTools(Arrays.asList("Una", "Dos", "Tres"));
+            em.persist(chuck);
+
+            Developer yelko = new Developer("Yelko","12345678J","699699699");
+            yelko.setProgrammingLanguages(Arrays.asList("Java","Python"));
+            em.persist(yelko);
+
+            em.getTransaction().commit();
+        } catch (RuntimeException e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        }
+
 
         em.close();
         emf.close();
